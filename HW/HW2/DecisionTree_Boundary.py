@@ -111,32 +111,3 @@ def predict_tree(x, tree):
         else:
             tree = tree['right tree']
     return tree
-
-
-if __name__ == '__main__':
-    # Load dataset
-    dataSet, labels = LoadData('D2.txt')
-    tree = BuildDecisionTree_FOR_BOUNDARY(dataSet, labels)
-
-    # Extract features and labels from data set
-    features = np.array(dataSet)[:, :2].astype(float)
-    labels = np.array(dataSet)[:, 2]
-
-    # Map label values to colors
-    label_colors = np.where(labels == '0', 'blue', 'red')
-
-    # Define meshgrid for visualization
-    x0, x1 = np.meshgrid(np.linspace(0, 1, 100), np.linspace(0, 1, 100))
-    X = np.c_[x0.ravel(), x1.ravel()]
-
-    # Use decision tree to make predictions on meshgrid
-    y = np.array([predict_tree(x, tree) for x in X])
-
-    # Plot results
-    plt.figure(figsize=(10, 10))
-    plt.title('Scatter Plot D_2')
-    plt.contourf(x0, x1, y.reshape(x0.shape), cmap='Pastel2', alpha=0.9)
-    plt.xlabel('X1')
-    plt.ylabel('X2')
-    plt.scatter(features[:, 0], features[:, 1], alpha=0.5, c=label_colors)
-    plt.show()
